@@ -59,8 +59,8 @@ pipeline {
 			steps {
                 		echo 'deploy'
 				bat label: '', script: "deploy adapters: [tomcat9(credentialsId: 'tomcat9', path: '', url: 'http://172.17.0.13:8080')], contextPath: 'sampleapp', war: '**/*.war'"	
-            }
-			
+            	}
+	   }		
         }     
     }
 }
