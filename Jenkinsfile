@@ -1,5 +1,5 @@
 pipeline {
-    agent docker
+    agent none
     stages {
         stage('compile') {
 			steps {
@@ -52,8 +52,12 @@ pipeline {
 			
         }
         stage('deploy') {
+		agent {
+			docker {
+				image 'dubbaka/webserver'
+			}
 			steps {
-                echo 'deploy'
+                		echo 'deploy'
 				bat label: '', script: "deploy adapters: [tomcat9(credentialsId: 'tomcat9', path: '', url: 'http://172.17.0.13:8080')], contextPath: 'sampleapp', war: '**/*.war'"	
             }
 			
