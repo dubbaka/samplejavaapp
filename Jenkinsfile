@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        node {
-            label 'docker-agent'
-        }
-    }
+    agent docker
     stages {
         stage('compile') {
 			steps {
