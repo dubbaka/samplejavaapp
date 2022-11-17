@@ -2,15 +2,15 @@ pipeline {
     agent none
     stages {
         stage('compile') {
-			steps {
-                echo 'compiling..'
-				git url: 'https://github.com/dubbaka/samplejavaapp'
-				bat label: '', script: 'mvn compile'
+		steps {
+                	echo 'compiling..'
+			git url: 'https://github.com/dubbaka/samplejavaapp.git'
+			bat label: '', script: 'mvn compile'
             }
         }
         stage('codereview-pmd') {
 			steps {
-                echo 'codereview..'
+                		echo 'codereview..'
 				bat label: '', script: 'mvn -P metrics pmd:pmd'
             }
 			post {
@@ -46,21 +46,21 @@ pipeline {
         }
         stage('package') {
 			steps {
-                echo 'metric-check..'
+                		echo 'metric-check..'
 				bat label: '', script: 'mvn package'	
             }
 			
         }
         stage('deploy') {
 		agent {
-			docker {
-				image 'dubbaka/webserver'
-			}
-			steps {
-                		echo 'deploy'
-				bat label: '', script: "deploy adapters: [tomcat9(credentialsId: 'tomcat9', path: '', url: 'http://172.17.0.13:8080')], contextPath: 'sampleapp', war: '**/*.war'"	
+		docker {
+			image 'dubbaka/webserver'
+		}
+		steps {
+                	echo 'deploy'
+			bat label: '', script: "deploy adapters: [tomcat9(credentialsId: 'tomcat9', path: '', url: 'http://172.17.0.13:8080')], contextPath: 'sampleapp', war: '**/*.war'"	
             	}
-	   }		
+	   	}		
         }     
     }
 }
