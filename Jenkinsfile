@@ -5,13 +5,13 @@ pipeline {
 		steps {
                 	echo 'compiling..'
 			url 'https://github.com/dubbaka/samplejavaapp.git'
-			script 'mvn compile'
+			script: 'mvn compile'
             }
         }
         stage('codereview-pmd') {
 			steps {
                 		echo 'codereview..'
-				script 'mvn -P metrics pmd:pmd'
+				script: 'mvn -P metrics pmd:pmd'
             }
 			post {
                 success {
