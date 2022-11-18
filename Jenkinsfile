@@ -5,7 +5,7 @@ pipeline {
 		steps {
                 	echo 'compiling..'
 			url 'https://github.com/dubbaka/samplejavaapp.git'
-			script: 'mvn compile'
+			script: 'compile'
             }
         }
         stage('codereview-pmd') {
