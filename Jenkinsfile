@@ -4,14 +4,14 @@ pipeline {
         stage('compile') {
 		steps {
                 	echo 'compiling..'
-			git url: 'https://github.com/dubbaka/samplejavaapp.git'
-			bat label: '', script: 'mvn compile'
+			url 'https://github.com/dubbaka/samplejavaapp.git'
+			script 'mvn compile'
             }
         }
         stage('codereview-pmd') {
 			steps {
                 		echo 'codereview..'
-				bat label: '', script: 'mvn -P metrics pmd:pmd'
+				script 'mvn -P metrics pmd:pmd'
             }
 			post {
                 success {
@@ -23,7 +23,7 @@ pipeline {
         stage('unit-test') {
 			steps {
                 echo 'codereview..'
-				bat label: '', script: 'mvn test'
+				script 'mvn test'
             }
 			post {
                 success {
@@ -35,7 +35,7 @@ pipeline {
         stage('metric-check') {
 			steps {
                 echo 'unit test..'
-				bat label: '', script: 'mvn cobertura:cobertura -Dcobertura.report.format=xml'
+				script 'mvn cobertura:cobertura -Dcobertura.report.format=xml'
             }
 			post {
                 success {
@@ -47,14 +47,14 @@ pipeline {
         stage('package') {
 			steps {
                 		echo 'metric-check..'
-				bat label: '', script: 'mvn package'	
+				script 'mvn package'	
             }
 			
         }
         stage('deploy') {
 		   steps {
                 	echo 'deploy'
-			bat label: '', script: "deploy adapters: [tomcat9(credentialsId: 'tomcat9', path: '', url: 'http://172.17.0.13:8080')], contextPath: 'sampleapp', war: '**/*.war'"	
+			script "deploy adapters: [tomcat9(credentialsId: 'tomcat9', path: '', url: 'http://172.17.0.13:8080')], contextPath: 'sampleapp', war: '**/*.war'"	
             	   }
 	   			
         }     
