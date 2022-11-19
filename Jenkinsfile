@@ -5,13 +5,13 @@ pipeline {
 		steps {
                 	echo 'compiling..'
 			url 'https://github.com/dubbaka/samplejavaapp.git'
-			script: 'compile'
+			sh 'compile'
             }
         }
         stage('codereview-pmd') {
 			steps {
                 		echo 'codereview..'
-				script: 'mvn -P metrics pmd:pmd'
+				sh 'mvn -P metrics pmd:pmd'
             }
 			post {
                 success {
@@ -23,7 +23,7 @@ pipeline {
         stage('unit-test') {
 			steps {
                 echo 'codereview..'
-				script 'mvn test'
+				sh 'mvn test'
             }
 			post {
                 success {
@@ -35,7 +35,7 @@ pipeline {
         stage('metric-check') {
 			steps {
                 echo 'unit test..'
-				script 'mvn cobertura:cobertura -Dcobertura.report.format=xml'
+				sh 'mvn cobertura:cobertura -Dcobertura.report.format=xml'
             }
 			post {
                 success {
@@ -47,14 +47,14 @@ pipeline {
         stage('package') {
 			steps {
                 		echo 'metric-check..'
-				script 'mvn package'	
+				sh 'mvn package'	
             }
 			
         }
         stage('deploy') {
 		   steps {
                 	echo 'deploy'
-			script "deploy adapters: [tomcat9(credentialsId: 'tomcat9', path: '', url: 'http://172.17.0.13:8080')], contextPath: 'sampleapp', war: '**/*.war'"	
+			sh "deploy adapters: [tomcat9(credentialsId: 'tomcat9', path: '', url: 'http://172.17.0.13:8080')], contextPath: 'sampleapp', war: '**/*.war'"	
             	   }
 	   			
         }     
