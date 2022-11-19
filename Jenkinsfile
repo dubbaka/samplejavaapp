@@ -4,7 +4,7 @@ pipeline {
         stage('compile') {
 		steps {
                 	echo 'compiling..'
-			url 'https://github.com/dubbaka/samplejavaapp.git'
+			git url 'https://github.com/dubbaka/samplejavaapp'
 			sh 'compile'
             }
         }
